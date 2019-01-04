@@ -1,0 +1,43 @@
+{
+  "name": "discord-bot-gui",
+  "version": "1.0.0",
+  "description": "A dashboard to monitor and control your discord bot",
+  "main": "main.js",
+  "scripts": {
+    "build": "gulp",
+    "watch": "tsc -w",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "start": "npm run build && electron ./dist/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slippard/discord-bot-gui.git"
+  },
+  "keywords": [
+    "discord"
+  ],
+  "author": "https://github.com/slippard",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/slippard/discord-bot-gui/issues"
+  },
+  "homepage": "https://github.com/slippard/discord-bot-gui#readme",
+  "devDependencies": {
+    "del": "^3.0.0",
+    "discord.js": "^11.4.2",
+    "electron": "^4.0.0",
+    "gulp": "^4.0.0",
+    "gulp-less": "^4.0.1",
+    "gulp-typescript": "^5.0.0",
+    "less": "^3.9.0",
+    "mongodb": "^3.1.10",
+    "mongoose": "^5.4.1",
+    "run-sequence": "^2.2.1",
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "@types/mongoose": "^5.3.5",
+    "moment": "^2.23.0",
+    "node-notifier": "^5.3.0"
+  }
+}
