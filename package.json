@@ -24,6 +24,8 @@
   },
   "homepage": "https://github.com/slippard/discord-bot-gui#readme",
   "devDependencies": {
+    "@types/react": "^16.7.18",
+    "@types/react-dom": "^16.0.11",
     "del": "^3.0.0",
     "discord.js": "^11.4.2",
     "electron": "^4.0.0",
@@ -38,8 +40,12 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
+    "@types/jquery": "^3.3.29",
     "@types/mongoose": "^5.3.5",
+    "jquery": "^3.3.1",
     "moment": "^2.23.0",
-    "node-notifier": "^5.3.0"
+    "node-notifier": "^5.3.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
   }
 }

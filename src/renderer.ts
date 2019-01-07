@@ -13,7 +13,7 @@ db.on('error', function (err: any) {
 db.once('open', async function () {
     await closeModal();
     return console.log('Connected to mongo database.');
-})
+}) 
 
 mongoose.connect(data.dburl, { useNewUrlParser: true });
 
@@ -30,18 +30,18 @@ class Render {
         this.loginbtn = document.getElementById('getuser');
         this.loginbtn.addEventListener('click', () => {
             const userid = (document.getElementById('username') as HTMLInputElement).value;
-            var isnum = /^\d+$/.test(userid);
+            const isnum = /^\d+$/.test(userid);
             if (isnum) return this.findUser(userid); else this.modalError('Please enter a valid userid.');
         })
     }
     
-    private findUser(userid: string) {
+    private findUser(userid: string) { 
         DUser.countDocuments({userid: userid}, (e: any, c: number) => c >= 1 ? this.auth(userid) : this.modalError('User not found.'));
     }
 
     private auth(id: string) {
         try {
-            var socket = net.connect({ host: data.host, port: data.port }, function (err: Error) {
+            var socket = net.connect({ host: 'localhost', port: data.port }, function (err: Error) {
                 if (err) return console.log(err);
                 socket.write(`login ${id}`);
             });
@@ -68,7 +68,7 @@ class Render {
             warning.style.visibility = `hidden`;
             warning.style.opacity = `0`;
         }, 4000);
-    }
+    } 
 
 }
 
