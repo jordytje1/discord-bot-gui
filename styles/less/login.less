@@ -58,4 +58,52 @@
     bottom: 0px;
     right: 0px;
     background: darken(@dark, 6%);
+    .login {
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70%;
+      height: auto;
+      padding: 20px;
+      input {
+        border: none;
+        border-bottom: solid 2px #333;
+        margin: 15px 0px;
+        font-size: 24px;
+        transition: ease-in-out .5s all;
+        &:focus {
+            &::placeholder {
+              position: relative;
+              font-size: 28px;
+              color: blue;
+        }
+          }
+        &::placeholder {
+          font-size: 14px;
+          color: red;
+        }
+      }
+      #token {
+        display: block;
+        width: 100%;
+        position: relative;
+        left: 50%;
+        transform: translatex(-50%);
+      }
+      #ownerid {
+        display: block;
+        width: 100%;
+        position: relative;
+        left: 50%;
+        transform: translatex(-50%);
+      }
+      #mongourl {
+        display: block;
+        width: 100%;
+        position: relative;
+        left: 50%;
+        transform: translatex(-50%);
+      }
+    }
   }
