@@ -13,7 +13,7 @@ gulp.task('clean', function () {
 });
 
 gulp.task('style', function () {
-    return gulp.src('./styles/less/**/*.less')
+    return gulp.src('./styles/**/*.less')
       .pipe(less({
         paths: [ path.join(__dirname, 'less', 'includes') ]
       }))

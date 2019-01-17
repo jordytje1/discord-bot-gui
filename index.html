@@ -16,13 +16,19 @@
     </nav>
     
     <main id="content">
-        <div class="login">
-          <input type="text" name="token" id="token" placeholder="Bot Token">
-          <input type="text" name="ownerid" id="ownerid" placeholder="Owner ID">
-          <input type="text" name="mongourl" id="mongourl" placeholder="mongodb URL">
-        </div>
+      <form class="login-form">
+        <p class="login-text">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-lock fa-stack-1x"></i>
+          </span>
+        </p>
+        <input type="text" class="login-username" autofocus="true" required="true" placeholder="Owner ID" />
+        <input type="password" class="login-password" required="true" placeholder="Bot Token" />
+        <input type="text" name="mongourl" class="login-mongourl" placeholder="Mongo DB URL">
+        <input type="submit" name="Login" value="Login" class="login-submit" />
+      </form>
       </main>
-    
 
 </body>
 <script>

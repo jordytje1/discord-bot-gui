@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from "path";
 import { EventEmitter } from 'events';
 import {Dash } from './dashboard';
+import DUser from "./schemas/user";
 
 class LoginEmitter extends EventEmitter {};
 
@@ -11,8 +12,11 @@ let mainWindow: Electron.BrowserWindow;
 let dash: Electron.BrowserWindow;
 
 class MainWindow {
-  constructor() { this.render() }
+  constructor() { 
+    this.render(); 
+  }
   private render() {
+    
     mainWindow = new BrowserWindow({
       height: 600,
       width: 600,
@@ -20,24 +24,21 @@ class MainWindow {
       resizable: false,
     });
     mainWindow.loadFile(path.join(__dirname, "../index.html"));
-  
+
+    
+    
     mainWindow.webContents.openDevTools();
   
     mainWindow.on("closed", () => {
       mainWindow = null;
     });
   }
+
 }
 
 class RenderDashboard {
-  private dash: Dash;
   constructor() {
-    const dash = new Dash({
-      configName: 'user-preferences',
-      defaults: {
-        windowBounds: { width: 800, height: 600 }
-      }
-    });
+    
     this.render(dash) 
   }
   
@@ -49,11 +50,6 @@ class RenderDashboard {
       autoHideMenuBar: true,
       resizable: true,
     });
-
-    dash.on('resize', () => {
-      let { width, height } = dash.getBounds();
-      this.dash.set('windowBounds', { width, height });
-    });
     
     dash.loadFile(path.join(__dirname, "../dashboard.html"));
 
@@ -62,6 +58,49 @@ class RenderDashboard {
     });
   }
 }
+
+ipcMain.on('login', (event: any, id: string, token: string, url: string) => {
+  DUser.findOne({userid: id}, (err, doc) => {
+    if(err)console.log(err);
+    if(doc) {
+      console.log(`FOUND && Recieved: ID: ${id} | Token: ${token} | DB URL: ${url}`);
+      event.returnValue = 'true'
+    } else {
+      console.log(`NOT FOUND && Recieved: ID: ${id} | Token: ${token}`);
+      event.returnValue = 'false'
+    }
+  })
+})
+
+ipcMain.on('login-nodb', (event: any, id: string, token: string) => {
+  DUser.findOne({userid: id}, (err, doc) => {
+    if(err)console.log(err);
+    if(doc) {
+      new login(id, token);
+      event.returnValue = 'true'
+    } else {
+      console.log(`NOT FOUND && Recieved: ID: ${id} | Token: ${token}`)
+      event.returnValue = 'false'
+    }
+  })
+})
+
+class login {
+  constructor(id: string, token: string, url?: string) {
+    if(id && token) {
+
+    } else if(id && token && url){
+
+    }
+  }
+
+  private renderDash() {
+    new RenderDashboard();
+    mainWindow.close();
+  }
+}
+
+
 
 Emitter.on('logging-in', () => {
   new RenderDashboard();
