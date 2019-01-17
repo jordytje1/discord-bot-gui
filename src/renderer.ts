@@ -12,7 +12,12 @@ db.on('error', function (err: any) {
 });
  
 db.once('open', async function () {
-    return console.log('Connected to mongo database.');
+    var status = await (document.getElementsByClassName('status')[0] as HTMLElement);
+    return setTimeout(() => {
+        status.style.border = '2px solid green'; 
+        status.style.color = 'green'; 
+        status.innerHTML = 'ONLINE';
+    }, 2000);
 }) 
 
 mongoose.connect(data.dburl, { useNewUrlParser: true });
@@ -33,7 +38,7 @@ class Render {
         var mongourl = (document.getElementsByClassName('login-mongourl')[0] as HTMLInputElement).value;
 
         if(!username || !token) {
-            alert('No content');
+            console.log('No content');
         } else {
             if(!mongourl) {
                 this.openDash(username, token);
