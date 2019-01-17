@@ -24,7 +24,10 @@ mongoose.connect(data.dburl, { useNewUrlParser: true });
 
 class Render {
     private btn: HTMLElement;
+    private skip: HTMLInputElement;
     constructor(){
+        this.skip = (document.getElementById('skip') as HTMLInputElement);
+        this.skip.addEventListener('click', () => ipcRenderer.send('skip'));
         this.btn = (document.getElementsByClassName('login-submit')[0] as HTMLElement);
         this.btn.addEventListener('click', () => this.login());
         Mousetrap.bind('ctrl+shift+r', function() {
@@ -35,26 +38,16 @@ class Render {
     private login() {
         var username = (document.getElementsByClassName('login-username')[0] as HTMLInputElement).value;
         var token = (document.getElementsByClassName('login-password')[0] as HTMLInputElement).value;
-        var mongourl = (document.getElementsByClassName('login-mongourl')[0] as HTMLInputElement).value;
 
         if(!username || !token) {
             console.log('No content');
         } else {
-            if(!mongourl) {
-                this.openDash(username, token);
-            } else {
-                this.openDash(username, token, mongourl);
-            }
+            this.openDash(username, token);
         }
     }
 
-    private openDash(id: string, token: string, mongo?: string) {
-        if(!mongo) {
-            return ipcRenderer.send('login', id, token, mongo);
-        } else {
-            return ipcRenderer.send('login-nodb', id, token);
-        }
-        //return mongo ? ipcRenderer.send('login', id, token, mongo) : ipcRenderer.send('login-nodb', id, token);
+    private openDash(id: string, token: string) {
+        return ipcRenderer.send('login', id, token);
     }
    
 }

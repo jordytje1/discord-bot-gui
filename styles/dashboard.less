@@ -1,4 +1,11 @@
+@import 'main';
 @import 'var';
+
+#dash {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+
 nav {
   display: grid;
   height: 80px;
@@ -23,6 +30,7 @@ nav {
     align-items: center;
     grid-column-start: 5;
     grid-column-end: 6;
+    transition: ease-in-out 1s all;
   }
   .logo {
     grid-column-start: 6;
@@ -33,13 +41,4 @@ nav {
       border-radius: 50%;
     }
   }
-}
-
-#content {
-  position: absolute;
-  top: 80px;
-  left: 0px;
-  bottom: 0px;
-  right: 0px;
-  background: darken(@dark, 6%);
 }

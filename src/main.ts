@@ -2,21 +2,20 @@ import { ipcMain, app, BrowserWindow } from "electron";
 import * as fs from 'fs';
 import * as path from "path";
 import { EventEmitter } from 'events';
-import {Dash } from './dashboard';
+import { Dash } from './dashboard';
 import DUser from "./schemas/user";
 
-class LoginEmitter extends EventEmitter {};
+class LoginEmitter extends EventEmitter { };
 
 const Emitter = new LoginEmitter();
 let mainWindow: Electron.BrowserWindow;
 let dash: Electron.BrowserWindow;
 
 class MainWindow {
-  constructor() { 
-    this.render(); 
+  constructor() {
+    this.render();
   }
   private render() {
-    
     mainWindow = new BrowserWindow({
       height: 600,
       width: 600,
@@ -24,92 +23,51 @@ class MainWindow {
       resizable: false,
     });
     mainWindow.loadFile(path.join(__dirname, "../index.html"));
-
-    
-    
     mainWindow.webContents.openDevTools();
-  
     mainWindow.on("closed", () => {
       mainWindow = null;
     });
   }
-
 }
 
 class RenderDashboard {
   constructor() {
-    
-    this.render(dash) 
+    this.render()
   }
-  
-  private render(opts: any) {
-
+  private render() {
     dash = new BrowserWindow({
       height: 600,
       width: 600,
       autoHideMenuBar: true,
-      resizable: true,
+      resizable: false,
     });
-    
     dash.loadFile(path.join(__dirname, "../dashboard.html"));
-
     dash.on("closed", () => {
       dash = null;
     });
   }
 }
 
-ipcMain.on('login', (event: any, id: string, token: string, url: string) => {
-  DUser.findOne({userid: id}, (err, doc) => {
-    if(err)console.log(err);
-    if(doc) {
-      console.log(`FOUND && Recieved: ID: ${id} | Token: ${token} | DB URL: ${url}`);
-      event.returnValue = 'true'
-    } else {
-      console.log(`NOT FOUND && Recieved: ID: ${id} | Token: ${token}`);
-      event.returnValue = 'false'
-    }
+ipcMain.on('login', async (event: any, id: string, token: string) => {
+  await Emitter.emit('logging-in');
+  await dash.webContents.on('did-finish-load', () => {
+    dash.webContents.send('login-data', id, token);
   })
+  await Emitter.emit('close-main');
 })
 
-ipcMain.on('login-nodb', (event: any, id: string, token: string) => {
-  DUser.findOne({userid: id}, (err, doc) => {
-    if(err)console.log(err);
-    if(doc) {
-      new login(id, token);
-      event.returnValue = 'true'
-    } else {
-      console.log(`NOT FOUND && Recieved: ID: ${id} | Token: ${token}`)
-      event.returnValue = 'false'
-    }
-  })
-})
-
-class login {
-  constructor(id: string, token: string, url?: string) {
-    if(id && token) {
-
-    } else if(id && token && url){
-
-    }
-  }
-
-  private renderDash() {
-    new RenderDashboard();
-    mainWindow.close();
-  }
-}
-
-
-
-Emitter.on('logging-in', () => {
+ipcMain.on('skip', () => {
   new RenderDashboard();
   mainWindow.close();
+})
+
+Emitter.on('logging-in', async () => {
+  await new RenderDashboard();
 });
 
-ipcMain.on('login-message', () => {
-  Emitter.emit('logging-in');
-}) 
+Emitter.on('close-main', async () => {
+  await mainWindow.close();
+});
 
 app.on("ready", () => new MainWindow());
 
@@ -119,7 +77,7 @@ app.on("window-all-closed", () => {
   }
 });
 
-app.on("activate", () => { 
+app.on("activate", () => {
   if (mainWindow === null) {
     new MainWindow();
   }

@@ -19,7 +19,7 @@ gulp.task('style', function () {
       }))
       .pipe(gulp.dest('./dist/styles/'));
   });
-
+ 
 gulp.task('ts', function () {
     return tsProject.src()
         .pipe(tsProject())
