@@ -4,6 +4,10 @@
 #dash {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
+  h2 {
+    font-size: 32px;
+    text-align: center;
+  }
 }
 
 nav {
@@ -41,4 +45,41 @@ nav {
       border-radius: 50%;
     }
   }
+}
+
+.content {
+  grid-column-start: 1;
+  grid-column-end: 13;
+  height: auto;
+  overflow-y: visible;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background: lighten(@dark, 5%);
+  color: #ccc;
+}
+.content table {
+  width: 100%;
+}
+.content table th {
+  border-bottom: 1px solid #ccc;
+}
+.content table th,
+.content table td {
+  padding: .25em .5em;
+  span {
+    padding: .5em;
+  }
+}
+.content table th:nth-child(1) {
+  width: 180px;
+}
+.content table th:nth-child(3) {
+  width: 90px;
+}
+.content table tr:nth-child(2n) {
+  background: darken(@dark, 5%);
+}
+
+.item {
+  background: #ecf0f1;
 }
