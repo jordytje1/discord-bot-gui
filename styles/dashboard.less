@@ -47,39 +47,32 @@ nav {
   }
 }
 
-.content {
-  grid-column-start: 1;
-  grid-column-end: 13;
-  height: auto;
-  overflow-y: visible;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  background: lighten(@dark, 5%);
-  color: #ccc;
-}
-.content table {
-  width: 100%;
-}
-.content table th {
-  border-bottom: 1px solid #ccc;
-}
-.content table th,
-.content table td {
-  padding: .25em .5em;
-  span {
-    padding: .5em;
+#members {
+  position: relative;
+  box-shadow: 0px 0px 10px @dark;
+  top: 40px;
+  left: 360px;
+  height: 440px;
+  width: 200px;
+  margin: 20px;
+  overflow-y:visible;
+  overflow-x: hidden;
+  background: lighten(@dark, 10%);
+  .member {
+    height: 50px;
+    width: 200px;
+    display: block;
+    padding: 1em;
+    color: #ccc;
+    transition: ease-in-out 1s all;
+    &:hover {
+      color: #fff;
+    }
+    &::after {
+      content: "X";
+      position: absolute;
+      left: 560px;
+    }
   }
 }
-.content table th:nth-child(1) {
-  width: 180px;
-}
-.content table th:nth-child(3) {
-  width: 90px;
-}
-.content table tr:nth-child(2n) {
-  background: darken(@dark, 5%);
-}
 
-.item {
-  background: #ecf0f1;
-}
